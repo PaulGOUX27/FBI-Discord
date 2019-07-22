@@ -1,6 +1,9 @@
+const token  = require('./config.json');
 const Discord = require('discord.js');
 const dateFormat = require('dateformat');
 const client = new Discord.Client();
+
+
 
 const nbMessageSave = 100;
 var tabMessages = {};
@@ -28,5 +31,4 @@ client.on('message', msg => {
     }
 });
 
-//Faudra rendre le token secret
-client.login('NjAyOTE5NTA5NTQzODc4NjY2.XTX3rQ.3kUdbAnIQw9GgwYtPWvBxAHV9bQ');
+client.login(token);
