@@ -27,7 +27,7 @@ client.on('message', msg => {
         let messages = "";
         if(personneId in tabMessages)
             tabMessages[personneId].forEach(function(item, index, array){
-                messages += "`[" + dateFormat(item.createdAt, "HH:MM:ss") + "]`\t" + item.content + "\n";
+                messages += "`[" + dateFormat(item.createdAt.setHours(item.createdAt.getHours() + 2), "HH:MM:ss") + "]`\t" + item.content + "\n";
             });
         if(messages.length > 0)
             msg.channel.send(messages);
