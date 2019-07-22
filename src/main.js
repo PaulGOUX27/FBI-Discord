@@ -1,11 +1,11 @@
-const token  = require('./config.json');
+const tokenFile  = require('./config.json');
 const Discord = require('discord.js');
 const dateFormat = require('dateformat');
 const client = new Discord.Client();
 
 
 
-const nbMessageSave = 100;
+const nbMessageSave = 20;
 var tabMessages = {};
 
 client.on('ready', () => {
@@ -32,4 +32,4 @@ client.on('message', msg => {
     }
 });
 
-client.login(token);
+client.login(tokenFile.token);
