@@ -26,8 +26,14 @@ client.on('message', msg => {
             personneId = msg.mentions.members.first().id;
         let messages = "";
         if(personneId in tabMessages)
-            tabMessages[personneId].forEach(function(item, index, array){
-                messages += "`[" + dateFormat(item.createdAt.setHours(item.createdAt.getHours() + 2), "HH:MM:ss") + "]`\t" + item.content + "\n";
+            tabMessages[personneId].forEach(function(itemMessage){
+                itemMessage.edits.reverse().forEach(function(item, index){
+                    messages += "`[" + dateFormat(item.createdAt.setHours(item.createdAt.getHours() + 2), "HH:MM:ss") + "]`\t" + item.content;
+                    console.log(itemMessage.edits.length + " " + index);
+                    if(itemMessage.edits.length !== index + 1)
+                        messages += "\t`modifié`";
+                    messages += '\n';
+                });
             });
         if(messages.length > 0)
             msg.channel.send(messages);
