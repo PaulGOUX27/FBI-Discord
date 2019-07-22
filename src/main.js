@@ -12,19 +12,23 @@ client.on('ready', () => {
 client.on('message', msg => {
     if(!(msg.author in tabMessages))
         tabMessages[msg.author] = [];
-    if(msg.content !== '!fbi')
+    if(!msg.content.startsWith('!fbi'))
         tabMessages[msg.author].push(msg);
     if(tabMessages[msg.author].length > nbMessageSave)
         tabMessages[msg.author].shift();
     if(msg.content === '!fbi'){
-        let messages = "";
+
+        console.log(msg.mentions.users.size);
+
         let personne = msg.author;
-        if(msg.isMemberMentioned())
-            msg.mentions.members.first().id
+        if(msg.mentions.users.size > 0)
+            personne = msg.mentions.users.first();
+        let messages = "";
         tabMessages[personne].forEach(function(item, index, array){
-            messages += "[" + dateFormat(msg.createdAt, "HH:MM:ss") + "] `" + item.content + "`\n";
+            messages += "[" + dateFormat(msg.createdAt, "HH:MM:ss") + "]\t`" + item.content + "`\n";
         });
-        msg.channel.send(messages);
+        if(messages.length > 0)
+            msg.channel.send(messages);
     }
 });
 
