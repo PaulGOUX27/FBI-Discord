@@ -5,7 +5,7 @@ const client = new Discord.Client();
 
 
 
-const nbMessageSave = 20;
+const nbMessageSave = 30;
 var tabMessages = {};
 
 client.on('ready', () => {
@@ -16,7 +16,8 @@ client.on('message', msg => {
     let tabId = msg.member.id;
     if(!(tabId in tabMessages))
         tabMessages[tabId] = [];
-    tabMessages[tabId].push(msg);
+    if(msg.content !== '!fbi')
+        tabMessages[tabId].push(msg);
     if(tabMessages[tabId].length > nbMessageSave)
         tabMessages[tabId].shift();
     if(msg.content.startsWith('!fbi')){
@@ -24,9 +25,10 @@ client.on('message', msg => {
         if(msg.mentions.users.size > 0)
             personneId = msg.mentions.members.first().id;
         let messages = "";
-        tabMessages[personneId].forEach(function(item, index, array){
-            messages += "[" + dateFormat(msg.createdAt, "HH:MM:ss") + "]\t`" + item.content + "`\n";
-        });
+        if(personneId in tabMessages)
+            tabMessages[personneId].forEach(function(item, index, array){
+                messages += "`[" + dateFormat(item.createdAt, "HH:MM:ss") + "]`\t" + item.content + "\n";
+            });
         if(messages.length > 0)
             msg.channel.send(messages);
     }
